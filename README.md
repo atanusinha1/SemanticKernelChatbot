@@ -1,342 +1,391 @@
-# 🤖 Semantic Kernel ChatBot with Azure OpenAI
+# 🧠 Semantic Kernel ChatBot API - Backend
 
-A production-ready AI chatbot built with **Semantic Kernel**, **C# / ASP.NET Core**, **React**, and **Azure OpenAI** (GPT-3.5/4). This project demonstrates how to build modern AI applications using Microsoft's Semantic Kernel framework.
+A production-ready **C# / ASP.NET Core** REST API powered by **Semantic Kernel** and **Azure OpenAI**. This backend handles AI processing, chat management, and API orchestration.
 
-> **Perfect for**: Learning Gen AI development, building intelligent chat applications, understanding Semantic Kernel, and deploying to Azure.
+> **Part of**: [Semantic Kernel ChatBot](https://github.com/yourusername/semantic-kernel-chatbot) - Full-stack AI chatbot project
+> 
+> **Frontend Repository**: [chatbot-frontend](https://github.com/yourusername/chatbot-frontend)
+
+---
+
+## 📋 Table of Contents
+
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Prerequisites](#prerequisites)
+- [Quick Start](#quick-start)
+- [Project Structure](#project-structure)
+- [API Endpoints](#api-endpoints)
+- [Configuration](#configuration)
+- [Development](#development)
+- [Deployment](#deployment)
+- [Troubleshooting](#troubleshooting)
+- [Contributing](#contributing)
 
 ---
 
 ## ✨ Features
 
-### Current (Week 1)
-- ✅ **Real-time Chat Interface** - Beautiful React UI with purple gradient theme
-- ✅ **Azure OpenAI Integration** - Powered by GPT-3.5 or GPT-4
-- ✅ **Semantic Kernel** - Modern AI orchestration library
-- ✅ **REST API** - Clean C# backend with error handling
-- ✅ **Responsive Design** - Works on desktop, tablet, and mobile
-- ✅ **Message Timestamps** - Track when messages were sent
-- ✅ **Loading States** - Visual feedback during processing
-- ✅ **Error Handling** - Comprehensive error messages
+### Current Version
+- ✅ **REST API** - Clean, well-documented endpoints
+- ✅ **Semantic Kernel Integration** - Modern AI orchestration
+- ✅ **Azure OpenAI** - GPT-3.5 and GPT-4 support
+- ✅ **Error Handling** - Comprehensive exception management
+- ✅ **Logging** - Built-in request/response logging
+- ✅ **CORS Support** - Ready for React frontend
+- ✅ **Health Checks** - API availability monitoring
+- ✅ **Input Validation** - Safe message handling
 
-### Coming Soon (Enterprise Roadmap)
-- 🔄 Conversation Memory - Remember chat history
-- 🔧 Function Calling - AI can trigger your code
-- 💾 Database Integration - Persistent storage
-- 🔐 Authentication - User login/roles
-- 📚 RAG (Knowledge Base) - Connect to your documents
-- 📊 Analytics & Monitoring - Track usage
-- ☁️ Azure Deployment - Production-ready hosting
+### Planned Features
+- 🔄 Conversation memory management
+- 🔧 Function calling & custom tools
+- 💾 Database integration
+- 🔐 Authentication & authorization
+- 📊 Usage analytics & cost tracking
+- 🚀 Performance optimization
+- 📈 Rate limiting
 
 ---
 
-## 🏗️ Architecture
+## 🛠️ Tech Stack
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                  Web Browser (React)                    │
-│              http://localhost:3000                      │
-│                                                         │
-│  ┌──────────────────────────────────────────────────┐  │
-│  │  ChatBox Component + Beautiful UI                │  │
-│  │  - Message display and input                     │  │
-│  │  - Real-time API calls                           │  │
-│  └──────────────────────────────────────────────────┘  │
-└─────────────────────┬──────────────────────────────────┘
-                      │ HTTP POST
-                      ↓
-┌─────────────────────────────────────────────────────────┐
-│         C# Backend API (ASP.NET Core)                   │
-│              http://localhost:5000                      │
-│                                                         │
-│  ┌──────────────────────────────────────────────────┐  │
-│  │  ChatController                                  │  │
-│  │  - Handles /api/chat endpoint                    │  │
-│  │  - Validates user input                          │  │
-│  │  - Manages chat history                          │  │
-│  └──────────────────────────────────────────────────┘  │
-│                      ↓                                  │
-│  ┌──────────────────────────────────────────────────┐  │
-│  │  Semantic Kernel                                 │  │
-│  │  - Formats prompts                               │  │
-│  │  - Manages context                               │  │
-│  │  - Handles AI orchestration                      │  │
-│  └──────────────────────────────────────────────────┘  │
-└─────────────────────┬──────────────────────────────────┘
-                      │ HTTPS API Call
-                      ↓
-        ┌─────────────────────────────┐
-        │   Azure OpenAI (Cloud)      │
-        │                             │
-        │   GPT-3.5 / GPT-4 Model     │
-        │   - Processes prompt        │
-        │   - Generates response      │
-        │                             │
-        └─────────────────────────────┘
-```
+| Component | Technology | Version | Purpose |
+|-----------|-----------|---------|---------|
+| **Framework** | ASP.NET Core | 8.0 | Web API |
+| **Language** | C# | 12 | Backend code |
+| **AI Framework** | Semantic Kernel | 1.8.0+ | AI orchestration |
+| **LLM Service** | Azure OpenAI | - | Language models |
+| **Config** | DotNetEnv | 2.1.1 | Environment variables |
+| **Logging** | ILogger | Built-in | Request tracking |
+| **API Format** | REST/JSON | - | Communication |
+
+---
+
+## 📋 Prerequisites
+
+### System Requirements
+- **[.NET 8 SDK](https://dotnet.microsoft.com/download)** - .NET runtime
+- **[Git](https://git-scm.com/)** - Version control
+- **[Visual Studio Code](https://code.visualstudio.com/)** - Code editor (optional but recommended)
+  - Extension: C# (powered by OmniSharp)
+
+### Azure Requirements
+- **[Azure Account](https://azure.microsoft.com/free/)** - With $200 free credit
+- **Azure OpenAI Resource** - Deployed with a model
+- **API Key & Endpoint** - From Azure Portal
+
+### Development Tools (Optional)
+- **[Postman](https://www.postman.com/)** - API testing
+- **[Thunder Client](https://www.thunderclient.com/)** - VS Code API client
 
 ---
 
 ## 🚀 Quick Start
 
-### Prerequisites
-
-- [.NET 8 SDK](https://dotnet.microsoft.com/download) or later
-- [Node.js 18+](https://nodejs.org/)
-- [Visual Studio Code](https://code.visualstudio.com/)
-- [Azure Account](https://azure.microsoft.com/free/) (with OpenAI resource)
-- Git
-
-### 1️⃣ Azure Setup (5 minutes)
-
-1. Go to [Azure Portal](https://portal.azure.com)
-2. Create "Azure OpenAI" resource
-3. Deploy a model (GPT-3.5 or GPT-4)
-4. Get your **API Key** and **Endpoint**
-
-### 2️⃣ Clone Repository
+### 1️⃣ Clone Repository
 
 ```bash
-git clone https://github.com/yourusername/semantic-kernel-chatbot.git
-cd semantic-kernel-chatbot
+git clone https://github.com/yourusername/semantic-kernel-chatbot-api.git
+cd semantic-kernel-chatbot-api
 ```
 
-### 3️⃣ Backend Setup
+### 2️⃣ Install Dependencies
 
 ```bash
-cd backend
-
-# Install dependencies
 dotnet restore
+```
 
-# Configure Azure credentials
+### 3️⃣ Configure Azure Credentials
+
+```bash
+# Copy template
 cp .env.template .env
-# Edit .env with your Azure OpenAI credentials:
+
+# Edit .env with your Azure credentials
 # AZURE_OPENAI_ENDPOINT=https://your-resource.openai.azure.com/
 # AZURE_OPENAI_API_KEY=your-api-key
 # AZURE_OPENAI_DEPLOYMENT_NAME=chatbot-gpt35
-
-# Run backend
-dotnet run
-# ✅ Backend running on http://localhost:5000
 ```
 
-### 4️⃣ Frontend Setup (New Terminal)
+**⚠️ IMPORTANT**: Never commit `.env` to version control!
+
+### 4️⃣ Build Project
 
 ```bash
-cd frontend
-
-# Install dependencies
-npm install
-
-# Start React app
-npm start
-# ✅ Frontend opens at http://localhost:3000
+dotnet build
 ```
 
-### 5️⃣ Test It! 🎉
+Expected output:
+```
+Build succeeded.
+```
 
-1. Open http://localhost:3000
-2. Type: "Hello, how are you?"
-3. See AI response appear!
+### 5️⃣ Run API
+
+```bash
+dotnet run
+```
+
+Expected output:
+```
+🤖 API running on: http://localhost:5000
+📡 Connected to Azure OpenAI: https://your-resource.openai.azure.com/
+🧠 Using deployment: chatbot-gpt35
+```
+
+### 6️⃣ Test API
+
+```bash
+# Health check
+curl http://localhost:5000/api/chat/health
+
+# Send a message
+curl -X POST http://localhost:5000/api/chat \
+  -H "Content-Type: application/json" \
+  -d '{"message":"Hello, how are you?"}'
+```
 
 ---
 
 ## 📁 Project Structure
 
 ```
-semantic-kernel-chatbot/
+SemanticKernelChatbot/
 │
-├── backend/                          # C# ASP.NET Core API
-│   ├── Controllers/
-│   │   └── ChatController.cs         # Main API endpoints
-│   ├── Models/
-│   │   └── ChatRequest.cs            # Data models
-│   ├── Program.cs                    # Application startup
-│   ├── SemanticKernelChatbot.csproj  # Project file
-│   ├── .env.template                 # Configuration template
-│   └── .gitignore
+├── Controllers/
+│   └── ChatController.cs              # Main API controller
+│       ├── POST /api/chat             # Process message
+│       └── GET /api/chat/health       # Health check
 │
-├── frontend/                         # React Application
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── ChatBox.jsx           # Main chat component
-│   │   │   └── ChatBox.css           # Chat styling
-│   │   ├── App.js                    # Root component
-│   │   ├── App.css                   # Global styles
-│   │   └── index.js                  # Entry point
-│   ├── public/
-│   │   └── index.html
-│   ├── package.json                  # NPM dependencies
-│   └── .env                          # Frontend config
+├── Models/
+│   ├── ChatRequest.cs                 # Request DTO
+│   ├── ChatResponse.cs                # Response DTO
+│   └── Conversation.cs                # (Future) Chat data
 │
-├── docs/                             # Documentation
-│   ├── SETUP_GUIDE.md                # Detailed setup
-│   ├── QUICK_START.md                # Step-by-step guide
-│   ├── ENTERPRISE_ROADMAP.md         # Enhancement path
-│   └── TROUBLESHOOTING.md            # Common issues
+├── Services/
+│   ├── ConversationService.cs         # (Future) Chat management
+│   └── RAGService.cs                  # (Future) Knowledge search
 │
-├── README.md                         # This file
-├── LICENSE
-└── .gitignore
+├── Middleware/
+│   └── ErrorHandlingMiddleware.cs     # (Future) Error handling
+│
+├── Program.cs                         # Application startup
+├── appsettings.json                   # App configuration
+├── appsettings.Development.json       # Dev-specific config
+├── SemanticKernelChatbot.csproj       # Project file
+├── .env.template                      # Environment template
+├── .gitignore                         # Git ignore rules
+├── README.md                          # This file
+└── LICENSE                            # MIT License
+```
+
+---
+
+## 🔌 API Endpoints
+
+### 1. Chat Endpoint
+
+**POST** `/api/chat`
+
+Send a message and get an AI response.
+
+**Request:**
+```json
+{
+  "message": "What is machine learning?"
+}
+```
+
+**Response (200 OK):**
+```json
+{
+  "response": "Machine learning is a subset of artificial intelligence...",
+  "timestamp": "2024-05-21T10:30:00Z"
+}
+```
+
+**Error Responses:**
+- `400 Bad Request` - Empty or invalid message
+- `503 Service Unavailable` - Azure OpenAI unreachable
+- `500 Internal Server Error` - Unexpected error
+
+**cURL Example:**
+```bash
+curl -X POST http://localhost:5000/api/chat \
+  -H "Content-Type: application/json" \
+  -d '{
+    "message": "Tell me about Semantic Kernel"
+  }'
+```
+
+**JavaScript/Fetch Example:**
+```javascript
+const response = await fetch('http://localhost:5000/api/chat', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ message: 'Hello!' })
+});
+
+const data = await response.json();
+console.log(data.response);
+```
+
+### 2. Health Check Endpoint
+
+**GET** `/api/chat/health`
+
+Check if API is running and healthy.
+
+**Response (200 OK):**
+```json
+{
+  "status": "healthy",
+  "timestamp": "2024-05-21T10:30:00Z"
+}
+```
+
+**cURL Example:**
+```bash
+curl http://localhost:5000/api/chat/health
 ```
 
 ---
 
 ## ⚙️ Configuration
 
-### Backend (.env)
+### Environment Variables (.env)
 
 ```env
-# Azure OpenAI
+# ===== REQUIRED =====
+# Azure OpenAI Configuration
 AZURE_OPENAI_ENDPOINT=https://your-resource.openai.azure.com/
 AZURE_OPENAI_API_KEY=your-api-key-here
 AZURE_OPENAI_DEPLOYMENT_NAME=chatbot-gpt35
 
-# (Optional)
+# ===== OPTIONAL =====
+# Server Configuration
 ASPNETCORE_URLS=http://localhost:5000
 ASPNETCORE_ENVIRONMENT=Development
+
+# Logging
+LOG_LEVEL=Information
 ```
 
-### Frontend (.env)
+### appsettings.json
 
-```env
-REACT_APP_API_URL=http://localhost:5000/api
-REACT_APP_ENVIRONMENT=development
+```json
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft": "Warning"
+    }
+  }
+}
 ```
 
-### Important Security Notes
+### Security Best Practices
 
-⚠️ **Never commit `.env` files to version control!**
-
-- Add `.env` to `.gitignore`
-- Use Azure Key Vault in production
-- Rotate API keys regularly
-- Use environment variables for secrets
-
----
-
-## 🧪 Usage Examples
-
-### Basic Chat
-
-```javascript
-// Frontend - Send message
-const response = await axios.post('http://localhost:5000/api/chat', {
-  message: 'What is machine learning?'
-});
-
-console.log(response.data.response); 
-// Output: "Machine learning is a subset of AI..."
-```
-
-### Health Check
-
-```bash
-curl http://localhost:5000/api/chat/health
-
-# Output:
-# {"status":"healthy","timestamp":"2024-05-21T10:30:00Z"}
-```
-
-### Customize Bot Behavior
-
-Edit `Program.cs` and modify the system prompt:
+⚠️ **Critical for Production:**
 
 ```csharp
-var systemPrompt = @"You are a helpful customer service bot.
-- Always be polite
-- Keep responses under 100 words
-- Offer solutions, not apologies";
+// In Program.cs
+// 1. Use Azure Key Vault instead of .env
+var keyVaultUrl = new Uri(Environment.GetEnvironmentVariable("KEY_VAULT_URL"));
+var credential = new DefaultAzureCredential();
+builder.Configuration.AddAzureKeyVault(keyVaultUrl, credential);
+
+// 2. Add HTTPS requirement
+builder.WebHost.UseUrls("https://localhost:5001");
+
+// 3. Add authentication
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options => {
+        options.Authority = "https://your-auth-server";
+        options.Audience = "your-api";
+    });
 ```
 
 ---
 
-## 🛠️ Technology Stack
+## 💻 Development
 
-| Layer | Technology | Version | Purpose |
-|-------|-----------|---------|---------|
-| **Frontend** | React | 18+ | Web UI |
-| **Styling** | CSS3 | - | Beautiful UI |
-| **Backend** | ASP.NET Core | 8.0 | REST API |
-| **AI Framework** | Semantic Kernel | 1.8.0+ | AI Orchestration |
-| **LLM** | Azure OpenAI | GPT-3.5/4 | Language Model |
-| **API** | REST | - | Communication |
-| **HTTP Client** | Axios | - | API Requests |
-
----
-
-## 📊 Cost Estimates
-
-| Usage Level | Monthly Cost | Example Use |
-|-------------|-------------|------------|
-| **Learning** | $0-10 | 100-500 messages |
-| **Testing** | $10-50 | 1,000-5,000 messages |
-| **Development** | $50-200 | 10,000+ messages |
-| **Production** | $500+ | Commercial service |
-
-### Cost Breakdown
-
-- **Azure OpenAI (GPT-3.5)**: ~$0.005 per 1K tokens (75%)
-- **Hosting**: ~$10-50/month (15%)
-- **Database**: ~$5-20/month (5%)
-- **Monitoring**: ~$5/month (5%)
-
----
-
-## 🚢 Deployment
-
-### Deploy to Azure App Service
+### Build Commands
 
 ```bash
-# Publish backend
-cd backend
-dotnet publish -c Release -o ./publish
+# Clean build
+dotnet clean
+dotnet build
 
-# Deploy
-az webapp create --resource-group mygroup --plan myplan \
-  --name my-chatbot-api --runtime "DOTNETCORE|8.0"
+# Build with release configuration
+dotnet build -c Release
 
-# Deploy frontend
-cd frontend
-npm run build
-az webapp deployment source config-zip --resource-group mygroup \
-  --name my-chatbot-web --src dist.zip
+# Build and run
+dotnet run
+
+# Build and run with specific port
+dotnet run --urls "http://localhost:5001"
 ```
 
-### Deploy to Docker
+### Testing
 
 ```bash
-# Build Docker image
-docker build -t chatbot-api:latest ./backend
+# Run all tests (when you add test projects)
+dotnet test
 
-# Run container
-docker run -p 5000:5000 --env-file .env chatbot-api:latest
+# Run tests with coverage
+dotnet test /p:CollectCoverage=true
+
+# Run specific test
+dotnet test --filter "ClassName"
 ```
 
----
+### Debugging
 
-## 🐛 Troubleshooting
+**VS Code Launch Configuration** (`.vscode/launch.json`):
 
-### Common Issues
+```json
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": ".NET Core Launch (web)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/bin/Debug/net8.0/SemanticKernelChatbot.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
+                "uriFormat": "{0}",
+                "action": "openExternally"
+            }
+        }
+    ]
+}
+```
 
-#### Build Error: "IKernel not found"
+### Adding Dependencies
+
 ```bash
-# Solution: Update using statements
-# Add to ChatController.cs:
-using Microsoft.SemanticKernel;
+# Add NuGet package
+dotnet add package PackageName --version 1.0.0
+
+# Update package
+dotnet add package PackageName --version 2.0.0
+
+# Remove package
+dotnet remove package PackageName
+
+# List installed packages
+dotnet list package
 ```
 
-#### "401 Unauthorized" from Azure
-- ✅ Verify API key is correct (no extra spaces)
-- ✅ Check endpoint URL ends with `/`
-- ✅ Verify deployment name matches exactly
+### Common Development Issues
 
-#### Frontend shows "Network error"
-- ✅ Ensure backend is running on `http://localhost:5000`
-- ✅ Check CORS is enabled in `Program.cs`
-- ✅ Verify API URL in React `.env`
-
-#### Port 5000 already in use
+**Port Already in Use:**
 ```bash
 # macOS/Linux
 lsof -ti:5000 | xargs kill -9
@@ -346,68 +395,306 @@ netstat -ano | findstr :5000
 taskkill /PID <PID> /F
 ```
 
----
+**IKernel Not Found:**
+```csharp
+// Add missing using statements
+using Microsoft.SemanticKernel;
+using Microsoft.SemanticKernel.ChatCompletion;
 
-## 📚 Documentation
-
-- **[QUICK_START.md](docs/QUICK_START.md)** - Step-by-step setup guide
-- **[SETUP_GUIDE.md](docs/SETUP_GUIDE.md)** - Detailed concepts and explanations
-- **[ENTERPRISE_ROADMAP.md](docs/ENTERPRISE_ROADMAP.md)** - Path to production
-- **[CHEAT_SHEET.md](docs/CHEAT_SHEET.md)** - Commands and code snippets
-
----
-
-## 🎯 Learning Resources
-
-### Official Documentation
-- [Semantic Kernel Docs](https://learn.microsoft.com/semantic-kernel/)
-- [Azure OpenAI Service](https://learn.microsoft.com/azure/ai-services/openai/)
-- [ASP.NET Core Documentation](https://learn.microsoft.com/aspnet/core/)
-- [React Documentation](https://react.dev/)
-
-### Tutorials
-- [Microsoft Learn - Azure AI](https://learn.microsoft.com/training/modules/use-openai-api/)
-- [Semantic Kernel Getting Started](https://learn.microsoft.com/semantic-kernel/get-started/)
+// Use Kernel instead of IKernel
+private readonly Kernel _kernel;
+```
 
 ---
 
-## 🗺️ Roadmap
+## 🚢 Deployment
 
-### Phase 1: Foundation ✅ (Current)
-- [x] Basic chatbot working
-- [x] React frontend
-- [x] C# backend with Semantic Kernel
-- [x] Azure OpenAI integration
+### Azure App Service
 
-### Phase 2: Enhancement (Weeks 2-4)
-- [ ] Conversation memory
-- [ ] Chat history persistence
-- [ ] Function calling
-- [ ] Custom integrations
+```bash
+# Login to Azure
+az login
 
-### Phase 3: Enterprise (Weeks 5-8)
-- [ ] Database integration (SQL)
-- [ ] User authentication
-- [ ] Rate limiting
-- [ ] Monitoring & logging
+# Create resource group
+az group create --name chatbot-rg --location eastus
 
-### Phase 4: Production (Weeks 9+)
-- [ ] RAG (Knowledge base)
-- [ ] Azure deployment
-- [ ] Security hardening
-- [ ] Performance optimization
+# Create App Service plan
+az appservice plan create \
+  --name chatbot-plan \
+  --resource-group chatbot-rg \
+  --sku B1
+
+# Create web app
+az webapp create \
+  --resource-group chatbot-rg \
+  --plan chatbot-plan \
+  --name my-chatbot-api \
+  --runtime "DOTNETCORE|8.0"
+
+# Publish application
+dotnet publish -c Release -o ./publish
+
+# Deploy
+az webapp deployment source config-zip \
+  --resource-group chatbot-rg \
+  --name my-chatbot-api \
+  --src publish.zip
+```
+
+### Docker Deployment
+
+```dockerfile
+# Dockerfile
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /app
+COPY . .
+RUN dotnet publish -c Release -o out
+
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
+WORKDIR /app
+COPY --from=build /app/out .
+EXPOSE 5000
+ENV ASPNETCORE_URLS=http://+:5000
+ENTRYPOINT ["dotnet", "SemanticKernelChatbot.dll"]
+```
+
+```bash
+# Build image
+docker build -t chatbot-api:latest .
+
+# Run container
+docker run -p 5000:5000 --env-file .env chatbot-api:latest
+```
+
+### Environment Variables in Azure
+
+Set in Azure App Service > Configuration > Application settings:
+
+```
+AZURE_OPENAI_ENDPOINT = https://your-resource.openai.azure.com/
+AZURE_OPENAI_API_KEY = your-api-key
+AZURE_OPENAI_DEPLOYMENT_NAME = chatbot-gpt35
+ASPNETCORE_ENVIRONMENT = Production
+```
+
+---
+
+## 🧪 Testing the API
+
+### Using Postman
+
+1. Create new POST request to `http://localhost:5000/api/chat`
+2. Set header: `Content-Type: application/json`
+3. Body (raw JSON):
+   ```json
+   {
+     "message": "Hello, what can you help me with?"
+   }
+   ```
+4. Send and see response
+
+### Using Thunder Client (VS Code)
+
+1. Install Thunder Client extension
+2. Create new request
+3. Set method to POST
+4. URL: `http://localhost:5000/api/chat`
+5. Add JSON body:
+   ```json
+   {
+     "message": "Tell me about C#"
+   }
+   ```
+
+### Using PowerShell
+
+```powershell
+$body = @{
+    message = "Hello!"
+} | ConvertTo-Json
+
+Invoke-RestMethod -Uri "http://localhost:5000/api/chat" `
+    -Method Post `
+    -ContentType "application/json" `
+    -Body $body
+```
+
+---
+
+## 🐛 Troubleshooting
+
+### Build Errors
+
+| Error | Solution |
+|-------|----------|
+| `error CS0246: IKernel not found` | Add `using Microsoft.SemanticKernel;` |
+| `Package not found` | Run `dotnet restore` |
+| `Duplicate symbol` | Check for duplicate using statements |
+| `Build failed` | Run `dotnet clean` then `dotnet build` |
+
+### Runtime Errors
+
+| Error | Solution |
+|-------|----------|
+| `401 Unauthorized` | Verify API key in .env |
+| `Endpoint not found` | Check endpoint URL ends with `/` |
+| `Connection timeout` | Verify Azure OpenAI resource exists |
+| `Port already in use` | Kill process on port 5000 |
+
+### Azure OpenAI Issues
+
+**Issue**: "401 Unauthorized"
+```
+Solution:
+1. Copy API key again from Azure Portal
+2. Check for extra spaces in .env
+3. Verify endpoint includes region: https://xxx.openai.azure.com/
+4. Check deployment name matches exactly
+```
+
+**Issue**: "Model deployment not found"
+```
+Solution:
+1. Verify deployment exists in Azure Portal
+2. Check spelling of AZURE_OPENAI_DEPLOYMENT_NAME
+3. Ensure you're in correct Azure subscription
+```
+
+**Issue**: "Rate limit exceeded"
+```
+Solution:
+1. Implement caching
+2. Add retry logic with exponential backoff
+3. Consider upgrading Azure pricing tier
+```
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Here's how:
+### Setup Development Environment
 
-1. **Fork** the repository
-2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
-3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
-4. **Push** to the branch (`git push origin feature/amazing-feature`)
-5. **Open** a Pull Request
+```bash
+# 1. Fork repository
+# 2. Clone your fork
+git clone https://github.com/YOUR_USERNAME/semantic-kernel-chatbot-api.git
+cd semantic-kernel-chatbot-api
+
+# 3. Create feature branch
+git checkout -b feature/amazing-feature
+
+# 4. Make changes and commit
+git commit -m "Add amazing feature"
+
+# 5. Push to your fork
+git push origin feature/amazing-feature
+
+# 6. Create Pull Request on GitHub
+```
+
+### Code Style Guidelines
+
+```csharp
+// Use meaningful names
+private readonly IChatCompletionService _chatService; // ✓ Good
+private readonly ICS _cs; // ✗ Bad
+
+// Add comments for complex logic
+// Call Azure OpenAI to generate response
+var response = await _service.GetChatMessageContentAsync(chatHistory);
+
+// Use async/await
+public async Task<ActionResult> ProcessMessage(string message)
+{
+    var result = await _service.ProcessAsync(message);
+    return Ok(result);
+}
+
+// Handle exceptions
+try
+{
+    // code
+}
+catch (HttpRequestException ex)
+{
+    _logger.LogError($"API error: {ex.Message}");
+    return StatusCode(503, new { error = "Service unavailable" });
+}
+```
+
+### Commit Message Format
+
+```
+feat: Add conversation memory
+fix: Resolve API timeout issue
+docs: Update README with deployment steps
+test: Add unit tests for ChatController
+refactor: Simplify error handling
+```
+
+---
+
+## 📚 Documentation
+
+- **[Setup Guide](../docs/SETUP_GUIDE.md)** - Detailed setup instructions
+- **[API Documentation](./API.md)** - Complete API reference
+- **[Architecture](../docs/ARCHITECTURE.md)** - System design
+- **[Semantic Kernel Docs](https://learn.microsoft.com/semantic-kernel/)** - Official SK docs
+- **[Azure OpenAI Docs](https://learn.microsoft.com/azure/ai-services/openai/)** - Official Azure docs
+
+---
+
+## 📊 Performance & Costs
+
+### API Response Times
+
+| Operation | Expected Time | Notes |
+|-----------|---------------|-------|
+| Health check | <10ms | No external calls |
+| Chat request | 1-3 seconds | Depends on AI model |
+| Error response | <100ms | Validation only |
+
+### Azure Costs
+
+```
+GPT-3.5:
+- Input: $0.50 per 1M tokens
+- Output: $1.50 per 1M tokens
+- Average: $0.005 per 1K tokens
+
+GPT-4:
+- Input: $30 per 1M tokens
+- Output: $60 per 1M tokens
+- Average: $0.03 per 1K tokens
+
+Free tier: First 1M tokens free per month
+```
+
+### Cost Optimization
+
+```csharp
+// 1. Implement response caching
+services.AddStackExchangeRedisCache(options => {
+    options.Configuration = builder.Configuration.GetConnectionString("Redis");
+});
+
+// 2. Batch requests
+// Send multiple messages at once instead of one-by-one
+
+// 3. Use streaming
+// Stream responses to avoid holding entire response in memory
+
+// 4. Monitor usage
+_logger.LogInformation($"Tokens used: {tokenCount}, Cost: ${cost}");
+```
+
+---
+
+## 🔗 Related Repositories
+
+- **[Frontend (React)](https://github.com/yourusername/chatbot-frontend)** - Chat UI
+- **[Main Project](https://github.com/yourusername/semantic-kernel-chatbot)** - Full-stack repo
+- **[Documentation](https://github.com/yourusername/semantic-kernel-chatbot/tree/main/docs)** - Detailed docs
 
 ---
 
@@ -419,30 +706,54 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 ## 🙏 Acknowledgments
 
-- [Microsoft Semantic Kernel](https://github.com/microsoft/semantic-kernel)
-- [Azure OpenAI Service](https://azure.microsoft.com/en-us/services/cognitive-services/openai-service/)
-- [React](https://react.dev/)
-- Community feedback and contributions
+- [Microsoft Semantic Kernel](https://github.com/microsoft/semantic-kernel) - Amazing framework
+- [Azure OpenAI Service](https://azure.microsoft.com/services/cognitive-services/openai-service/) - AI models
+- [ASP.NET Core](https://dotnet.microsoft.com/) - Web framework
+- Contributors and community
 
 ---
 
-## 📞 Support & Contact
+## 📞 Support
 
 ### Get Help
 
-- 📖 Check the [Documentation](docs/)
-- 🐛 Search [GitHub Issues](https://github.com/yourusername/semantic-kernel-chatbot/issues)
-- 💬 Ask on [GitHub Discussions](https://github.com/yourusername/semantic-kernel-chatbot/discussions)
+- 📖 Check [Documentation](../docs/)
+- 🐛 Search [GitHub Issues](https://github.com/yourusername/semantic-kernel-chatbot-api/issues)
+- 💬 [GitHub Discussions](https://github.com/yourusername/semantic-kernel-chatbot-api/discussions)
 
 ### Report Issues
 
-Found a bug? Please [open an issue](https://github.com/yourusername/semantic-kernel-chatbot/issues/new)
+[Open a bug report](https://github.com/yourusername/semantic-kernel-chatbot-api/issues/new) with:
+- Detailed description
+- Steps to reproduce
+- Expected vs actual behavior
+- Environment details (.NET version, OS)
+- Error logs
 
 ---
 
-## 🌟 Star This Repo
+## 🌟 Give Us a Star
 
-If this project helped you, please give it a ⭐ on GitHub!
+If this project helps you, please star it on GitHub! ⭐
+
+```bash
+# Clone
+git clone https://github.com/yourusername/semantic-kernel-chatbot-api.git
+
+# Star on GitHub
+# Visit: https://github.com/yourusername/semantic-kernel-chatbot-api
+# Click the ⭐ button
+```
+
+---
+
+## 🚀 Quick Links
+
+- [Quick Start](#quick-start) - Get running in 5 minutes
+- [API Endpoints](#api-endpoints) - Available endpoints
+- [Configuration](#configuration) - Setup guide
+- [Deployment](#deployment) - Deploy to Azure
+- [Contributing](#contributing) - How to contribute
 
 ---
 
