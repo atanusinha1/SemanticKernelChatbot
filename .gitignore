@@ -1,0 +1,16 @@
+# Environment variables
+.env
+.env.*
+
+# Build folders
+bin/
+obj/
+
+# VS Code settings
+.vscode/
+
+# Node modules (if using Node.js)
+node_modules/
+
+# Logs
+*.log
