@@ -4,6 +4,7 @@
 using Microsoft.SemanticKernel;
 using Azure.Identity;
 using Microsoft.SemanticKernel.ChatCompletion;
+using SemanticKernelChatbot.Services;
 //using DotNetEnv;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -36,6 +37,9 @@ var kernel = builder2.Build();
 
 // Register the kernel in dependency injection
 builder.Services.AddSingleton(kernel);
+
+// Add ConversationService to dependency injection
+builder.Services.AddSingleton<IConversationService, ConversationService>();
 
 // ===== STANDARD ASP.NET CORE SETUP =====
 builder.Services.AddControllers();
